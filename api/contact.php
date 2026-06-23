@@ -1,51 +1,52 @@
 <?php
-
-declare(strict_types=1);
+require_once __DIR__ . '/../models/DataStore.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
-require_once __DIR__ . '/../config/DB.php';
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['message' => 'Method not allowed.']);
+    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
     exit;
 }
 
-$name = trim((string) ($_POST['name'] ?? ''));
-$email = trim((string) ($_POST['email'] ?? ''));
-$message = trim((string) ($_POST['message'] ?? ''));
+$name = trim($_POST['name'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$message = trim($_POST['message'] ?? '');
 
 if ($name === '' || $email === '' || $message === '') {
     http_response_code(422);
-    echo json_encode(['message' => 'Please fill in all fields.']);
+    echo json_encode(['success' => false, 'message' => 'Please fill in all fields']);
     exit;
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(422);
-    echo json_encode(['message' => 'Email is not valid.']);
+    echo json_encode(['success' => false, 'message' => 'Email is invalid']);
     exit;
 }
 
-try {
-    $pdo = DB::connect();
-    $stmt = $pdo->prepare('
-        INSERT INTO contacts (name, email, message)
-        VALUES (:name, :email, :message)
-    ');
-    $stmt->execute([
-        'name' => $name,
-        'email' => $email,
-        'message' => $message,
-    ]);
+$conn = DataStore::connection();
 
-    echo json_encode(['message' => 'Message sent successfully.']);
-} catch (Throwable $error) {
+if (!$conn) {
     http_response_code(500);
-    echo json_encode([
-        'message' => 'Cannot save contact message.',
-        'error' => $error->getMessage(),
-    ], JSON_UNESCAPED_UNICODE);
+    echo json_encode(['success' => false, 'message' => 'Cannot connect to database']);
+    exit;
 }
 
+$stmt = $conn->prepare('INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)');
+
+if (!$stmt) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Cannot prepare contact request']);
+    exit;
+}
+
+$stmt->bind_param('sss', $name, $email, $message);
+
+if (!$stmt->execute()) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Cannot save contact message']);
+    exit;
+}
+
+echo json_encode(['success' => true, 'message' => 'Message sent successfully']);
