@@ -1,0 +1,71 @@
+{
+  "services": [
+    {
+      "title": "Property Selling",
+      "description": "Prepare documents, pricing and promotion for your property."
+    },
+    {
+      "title": "Home Loan",
+      "description": "Compare finance options and understand your monthly budget."
+    },
+    {
+      "title": "Legal Support",
+      "description": "Review contracts and ownership details before every deal."
+    },
+    {
+      "title": "Market Analysis",
+      "description": "Get clear local data before buying or investing."
+    },
+    {
+      "title": "Home Visit",
+      "description": "Book flexible visits with verified property advisors."
+    },
+    {
+      "title": "Rent Service",
+      "description": "Find apartments, offices and commercial spaces faster."
+    }
+  ],
+  "properties": [
+    {
+      "type": "Apartment",
+      "area": "120 m2",
+      "title": "Modern family apartment",
+      "address": "District 1, Ho Chi Minh City",
+      "price": "$280,000"
+    },
+    {
+      "type": "Office",
+      "area": "260 m2",
+      "title": "Bright corporate office",
+      "address": "Thu Duc City, Ho Chi Minh City",
+      "price": "$4,800/mo"
+    },
+    {
+      "type": "House",
+      "area": "180 m2",
+      "title": "Quiet urban townhouse",
+      "address": "Binh Thanh, Ho Chi Minh City",
+      "price": "$395,000"
+    }
+  ],
+  "blogs": [
+    {
+      "date": "June 12, 2026",
+      "category": "Buying",
+      "title": "How to choose a good neighborhood",
+      "description": "A short checklist for location, transport, schools and daily comfort."
+    },
+    {
+      "date": "June 15, 2026",
+      "category": "Investment",
+      "title": "What affects property value",
+      "description": "Understand the signals that make a house easier to rent or resell."
+    },
+    {
+      "date": "June 20, 2026",
+      "category": "Guide",
+      "title": "Documents to prepare before buying",
+      "description": "Keep the process smooth with essential legal and finance papers."
+    }
+  ]
+}
